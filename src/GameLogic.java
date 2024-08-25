@@ -21,13 +21,13 @@ public class GameLogic implements GameControl {
     private int score;
     private boolean gameRunning;
 
-    public GameLogic(Player player, QuestionLoader questions) {
+    public GameLogic(Player player, QuestionLoader questions, Lifeline lifeline) {
         this.player = player;
         this.questions = questions;
         this.userInputHandler = new UserInputHandler();
         this.countdownTimer = new CountdownTimer(answered);
         this.questionManager = new QuestionManager();
-        this.lifeline = new Lifeline();
+        this.lifeline = lifeline;
         this.answered = false;
         this.score = 0;
         this.gameRunning = false;
@@ -59,7 +59,7 @@ public class GameLogic implements GameControl {
             } else if (userAnswer.equalsIgnoreCase("e")) {
                 // Handle lifeline usage
                 System.out.println("Using a lifeline...");
-                //lifeline.useLifeline(questions.loadNextQuestion());
+                lifeline.useLifeline(questions);
             } else if (userAnswer.equalsIgnoreCase("f")) {
                 // Handle quitting the game
                 System.out.println("You chose to quit the game.");

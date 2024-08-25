@@ -10,6 +10,10 @@
 public class QuestionManager {
 
     private int qCount = 1;  // To track question numbers
+    
+    public void showCurrentQuestion(QuestionLoader questions){
+        
+    }
 
     public void showNextQuestion(QuestionLoader questions) {
         Utils.pause(2000);

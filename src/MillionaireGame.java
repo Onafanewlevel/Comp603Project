@@ -11,10 +11,11 @@ public class MillionaireGame {
 
         Player player = new Player(playerName);
         QuestionLoader questions = new QuestionLoader();
+        Lifeline lifeline = new Lifeline();
         
         // Initialize and start the game engine
-        GameLogic gameEngine = new GameLogic(player, questions);
-        gameEngine.startGame();  // Start the game
+        GameLogic game = new GameLogic(player, questions, lifeline);
+        game.startGame();  // Start the game
         
         scan.close();
     }
