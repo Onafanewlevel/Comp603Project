@@ -34,6 +34,19 @@ public class UserInputHandler {
         return userAnswer;
     }
 
+    public boolean isPlayerReady() {
+        while (true) {
+            Scanner scanner = new Scanner(System.in);
+            String input = scanner.nextLine().trim();  // Get new input from user
+            // Check if input length is 1 and it matches 'y' or 'Y'
+            if (input.length() == 1 && "yY".contains(input)) {
+                return true;  // Player is ready
+            } else {
+                System.out.println("Enter y when ready...");
+            }
+        }
+    }
+
     public void closeScanner() {
         scanner.close();
     }

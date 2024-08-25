@@ -17,6 +17,10 @@ public class Lifeline {
         this.hasHint = true;
         this.hasAsk = true;
     }
+    
+    public void useFiftyfity() {
+        
+    }
 
     /**
      * @return the hasFiftyfity

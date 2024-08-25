@@ -11,7 +11,7 @@ public class QuestionManager {
 
     private int qCount = 1;  // To track question numbers
 
-    public void showNextQuestion(QuestionLoader questions, Lifeline lifeline) {
+    public void showNextQuestion(QuestionLoader questions) {
         Utils.pause(2000);
         System.out.println("\n\nQuestion " + qCount + "\n\n");
         Utils.pause(2000);
