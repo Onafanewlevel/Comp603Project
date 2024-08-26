@@ -10,13 +10,15 @@
 import java.util.Scanner;
 
 public class GameLogic implements GameControl {
-    private Player player;
-    private Messages message = new Messages();
-    private QuestionLoader questions;
-    private UserInputHandler userInputHandler;
-    private CountdownTimer countdownTimer;
-    private QuestionManager questionManager;
-    private Lifeline lifeline;
+
+    private final Player player;
+    private final Messages message = new Messages();
+    private final QuestionLoader questions;
+    private final UserInputHandler userInputHandler = new UserInputHandler();
+    private final CountdownTimer countdownTimer;
+    private final QuestionManager questionManager = new QuestionManager();
+    private final Lifeline lifeline;
+    private final Scanner scan = new Scanner(System.in);
     private boolean answered;
     private int score;
     private boolean gameRunning;
@@ -24,10 +26,8 @@ public class GameLogic implements GameControl {
     public GameLogic(Player player, QuestionLoader questions, Lifeline lifeline) {
         this.player = player;
         this.questions = questions;
-        this.userInputHandler = new UserInputHandler();
-        this.countdownTimer = new CountdownTimer(answered);
-        this.questionManager = new QuestionManager();
         this.lifeline = lifeline;
+        this.countdownTimer = new CountdownTimer(answered);
         this.answered = false;
         this.score = 0;
         this.gameRunning = false;
@@ -38,44 +38,90 @@ public class GameLogic implements GameControl {
         gameRunning = true;
         message.welcome(player.getName());
         message.startBanner();
-        userInputHandler.isPlayerReady();
+
+        promptForStart();
         message.startBanner2();
-        
+
         while (gameRunning) {
-            answered = false;  // Reset the answered flag for each new question
-            questionManager.showNextQuestion(questions);  // Show the next question
-            countdownTimer.setAnswered(false);  // Reset countdown timer state
-            countdownTimer.startCountDown(15);  // Start a 15-second countdown
+            startNewQuestionRound();
+        }
+        scan.close();
+    }
 
-            String userAnswer = userInputHandler.getPlayerAnswer();
-            answered = true;  // Set answered to true to stop the countdown thread
-            countdownTimer.setAnswered(true);  // Update countdown timer state
+    private void promptForStart() {
+        String userInput;
+        do {
+            userInput = scan.nextLine();
+            if (!userInputHandler.checkReadyInput(userInput)) {
+                System.out.println("Press y when ready!");
+            }
+        } while (!userInputHandler.checkReadyInput(userInput));
+    }
 
-            Utils.pause(2000);  // Optional pause for dramatic effect
+    private void startNewQuestionRound() {
+        // Show the next question
+        questionManager.showNextQuestion(questions, lifeline);
 
-            if (userAnswer.equalsIgnoreCase(questions.getAnswer())) {
-                System.out.println("\nCorrect!");
-                score += 500;
-            } else if (userAnswer.equalsIgnoreCase("e")) {
-                // Handle lifeline usage
-                System.out.println("Using a lifeline...");
-                lifeline.useLifeline(questions);
-            } else if (userAnswer.equalsIgnoreCase("f")) {
-                // Handle quitting the game
-                System.out.println("You chose to quit the game.");
-                message.endMessage(player.getName(), score);
-                stopGame();
-                break;  // Exit the game loop
+        // Start the countdown timer if there are fewer than 7 questions asked
+        if (questionManager.getQCount() < 7) {
+            answered = false;
+            countdownTimer.setAnswered(false);
+            countdownTimer.startCountDown(15);
+        }
+
+        // Handle user input
+        String userInput;
+        while (!answered) {  // Continue prompting until a valid answer or timeout
+            userInput = scan.nextLine();
+
+            if (userInputHandler.checkAnswerInput(userInput)) {
+                handleUserInput(userInput);
+                answered = true;  // Mark as answered to stop the countdown
             } else {
-                // Handle incorrect answer
-                System.out.println("\nIncorrect!");
-                message.endMessage(player.getName(), score);
-                stopGame();
-                break;  // Exit the game loop
+                System.out.println("Invalid input! Please try again.");
             }
         }
 
-        userInputHandler.closeScanner();  // Close the scanner
+        // Ensure countdown stops if the input is provided or if time runs out
+        countdownTimer.setAnswered(true);
+    }
+
+    private void handleUserInput(String userInput) {
+        answered = true;
+        countdownTimer.setAnswered(true);
+
+        if (userInput.equalsIgnoreCase(questions.getAnswer())) {
+            Utils.pause(2000);
+            handleCorrectAnswer();
+        } else if (userInput.equalsIgnoreCase("e")) {
+            handleLifeline();
+        } else if (userInput.equalsIgnoreCase("f")) {
+            handleQuit();
+        } else {
+            Utils.pause(2000);
+            handleIncorrectAnswer();
+        }
+    }
+
+    private void handleCorrectAnswer() {
+        System.out.println("\nCorrect!");
+        score += 500;
+    }
+
+    private void handleLifeline() {
+        lifeline.useLifeline(questions);
+    }
+
+    private void handleQuit() {
+        System.out.println("You chose to quit the game.");
+        message.endMessage(player.getName(), score);
+        stopGame();
+    }
+
+    private void handleIncorrectAnswer() {
+        System.out.println("\nIncorrect!");
+        message.endMessage(player.getName(), score);
+        stopGame();
     }
 
     @Override
@@ -83,4 +129,3 @@ public class GameLogic implements GameControl {
         gameRunning = false;
     }
 }
-

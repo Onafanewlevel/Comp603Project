@@ -10,12 +10,8 @@
 public class QuestionManager {
 
     private int qCount = 1;  // To track question numbers
-    
-    public void showCurrentQuestion(QuestionLoader questions){
-        
-    }
 
-    public void showNextQuestion(QuestionLoader questions) {
+    public void showNextQuestion(QuestionLoader questions, Lifeline lifeline) {
         Utils.pause(2000);
         System.out.println("\n\nQuestion " + qCount + "\n\n");
         Utils.pause(2000);
@@ -26,10 +22,17 @@ public class QuestionManager {
             System.out.println(questions.getB());
             System.out.println(questions.getC());
             System.out.println(questions.getD());
+            if (lifeline.isHasAsk() || lifeline.isHasFiftyfity() || lifeline.isHasHint()) {
+                System.out.println("\ne) Use Lifeline");
+            }
+            System.out.println("f) Walk Away!");
             qCount++;  // Increment the question counter
         } else {
             System.out.println("No more questions available.");
         }
     }
+    
+    public int getQCount(){
+        return this.qCount; 
+    }
 }
-

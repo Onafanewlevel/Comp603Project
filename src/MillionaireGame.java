@@ -7,7 +7,7 @@ public class MillionaireGame {
         message.banner();
         Scanner scan = new Scanner(System.in);
         System.out.print("Please enter your name contestant!: ");
-        String playerName = scan.nextLine();
+        String playerName = scan.nextLine().toUpperCase();
 
         Player player = new Player(playerName);
         QuestionLoader questions = new QuestionLoader();

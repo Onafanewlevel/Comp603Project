@@ -12,10 +12,7 @@ public class Utils {
     public static void pause(int milliseconds) {
         try {
             Thread.sleep(milliseconds);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();  // Restore interrupted status
-            System.out.println("An error occurred while waiting.");
-        }
+        } catch (InterruptedException e) {}
     }
 }
 

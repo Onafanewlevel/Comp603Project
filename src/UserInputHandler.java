@@ -11,43 +11,19 @@ import java.util.Scanner;
 
 public class UserInputHandler {
 
-    private Scanner scanner;
-
-    public UserInputHandler() {
-        this.scanner = new Scanner(System.in);
+    public boolean checkAnswerInput(String input) {
+        return checkInput(input, "abcdef");
     }
 
-    public String getPlayerAnswer() {
-        String userAnswer;
-
-        while (true) {
-            String input = scanner.nextLine().trim().toLowerCase();
-
-            if (input.length() == 1 && "abcdef".contains(input)) {
-                userAnswer = input;
-                break;
-            } else {
-                System.out.println("Enter a valid option dumb dumb!!");
-            }
-        }
-
-        return userAnswer;
+    public boolean checkLifelineInput(String input) {
+        return input.equals("5050") || input.equals("hint") || input.equals("ask");
     }
 
-    public boolean isPlayerReady() {
-        while (true) {
-            Scanner scanner = new Scanner(System.in);
-            String input = scanner.nextLine().trim();  // Get new input from user
-            // Check if input length is 1 and it matches 'y' or 'Y'
-            if (input.length() == 1 && "yY".contains(input)) {
-                return true;  // Player is ready
-            } else {
-                System.out.println("Enter y when ready...");
-            }
-        }
+    public boolean checkReadyInput(String input) {
+        return checkInput(input, "yY");
     }
 
-    public void closeScanner() {
-        scanner.close();
+    private boolean checkInput(String input, String validChars) {
+        return input.length() == 1 && validChars.contains(input);
     }
 }
