@@ -63,7 +63,7 @@ public class GameLogic implements GameControl {
         questionManager.showNextQuestion(questions, lifeline);
 
         // Start the countdown timer if there are fewer than 7 questions asked
-        if (questionManager.getQCount() < 7) {
+        if (questionManager.getQCount() < 6) {
             answered = false;
             countdownTimer.setAnswered(false);
             countdownTimer.startCountDown(15);
