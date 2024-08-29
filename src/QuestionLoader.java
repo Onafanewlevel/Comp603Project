@@ -28,55 +28,25 @@ public class QuestionLoader {
             answer = buffer.readLine(); // Read the correct answer
             hint = buffer.readLine(); // Read the hint
             return true;
-        } catch (IOException e) {
-            return false;
-        }
+        } catch (IOException e) {return false;}
     }
 
     public HashMap<Character, String> getOptions() {
         HashMap<Character, String> options = new HashMap<>();
-        if (a != null) {
-            options.put('a', a);
-        }
-        if (b != null) {
-            options.put('b', b);
-        }
-        if (c != null) {
-            options.put('c', c);
-        }
-        if (d != null) {
-            options.put('d', d);
-        }
+        if (a != null) {options.put('a', a);}
+        if (b != null) {options.put('b', b);}
+        if (c != null) {options.put('c', c);}
+        if (d != null) { options.put('d', d);}
         return options;
     }
-
-    public String getQuestion() {
-        return question;
-    }
-
-    public String getA() {
-        return a;
-    }
-
-    public String getB() {
-        return b;
-    }
-
-    public String getC() {
-        return c;
-    }
-
-    public String getD() {
-        return d;
-    }
-
-    public String getAnswer() {
-        return answer;
-    }
-
-    public String getHint() {
-        return hint;
-    }
+    
+    public String getQuestion() {return question;}
+    public String getA() {return a;}
+    public String getB() {return b;}
+    public String getC() {return c;}
+    public String getD() {return d;}
+    public String getAnswer() {return answer;}
+    public String getHint() {return hint;}
 
     public void resetBuffer() {
         try {

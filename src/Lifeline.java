@@ -15,7 +15,6 @@ public class Lifeline {
 
     private boolean hasFiftyfity;
     private boolean hasHint;
-    private boolean hasAsk;
     private Scanner scan;
     private String input;
     private UserInputHandler userInputHandler;
@@ -24,7 +23,6 @@ public class Lifeline {
     public Lifeline() {
         this.hasFiftyfity = true;
         this.hasHint = true;
-        this.hasAsk = true;
         this.scan = new Scanner(System.in);
         this.input = null;
         this.userInputHandler = new UserInputHandler();
@@ -39,7 +37,7 @@ public class Lifeline {
             input = scan.nextLine().toLowerCase();
 
             if (!userInputHandler.checkLifelineInput(input)) {
-                System.out.println("Invalid lifeline choice! Please enter '5050', 'hint', or 'ask'.");
+                System.out.println("Invalid lifeline choice! Please enter '5050' or 'hint'.");
                 continue; // Prompt the user again
             }
 
@@ -61,22 +59,14 @@ public class Lifeline {
                         System.out.println("You have already used the Hint lifeline.");
                     }
                     break;
-                case "ask":
-                    if (hasAsk) {
-                        useAskAudience(question);
-                        hasAsk = false;
-                    } else {
-                        System.out.println("You have already used the Ask the Audience lifeline.");
-                    }
-                    break;
             }
-
             break; // Exit the loop after processing the input
         }
+        scan.close();
     }
 
     public void useFiftyFifty(QuestionLoader questionLoader) {
-        System.out.println("50:50 Lifeline activated!");
+        System.out.println("50:50 Lifeline activated!\n");
 
         Random random = new Random();
         HashMap<Character, String> options = questionLoader.getOptions();
@@ -93,25 +83,15 @@ public class Lifeline {
         }
 
         // Display remaining options
-        System.out.println("Remaining options:");
+        System.out.println("\nRemaining options:");
         for (char option : options.keySet()) {
-            System.out.println(option + ": " + options.get(option));
+            System.out.println(options.get(option));
         }
     }
 
     private void useHint(QuestionLoader question) {
-        System.out.println("Hint Lifeline activated!");
+        System.out.println("Hint Lifeline activated!\n");
         System.out.println("Hint: " + question.getHint());
-    }
-
-    private void useAskAudience(QuestionLoader question) {
-        System.out.println("Ask the Audience Lifeline activated!");
-        Random random = new Random();
-        // Simulate audience voting
-        for (char option : question.getOptions().keySet()) {
-            int percentage = random.nextInt(30) + 10;  // Random percentage between 10 and 40
-            System.out.println(option + ": " + percentage + "%");
-        }
     }
 
     private void showRemainingLifelines() {
@@ -134,11 +114,6 @@ public class Lifeline {
             System.out.println("- Hint (type 'hint')");
             hasAnyLifelines = true;
         }
-        if (hasAsk) {
-            System.out.println("- Ask the Audience (type 'ask')");
-            hasAnyLifelines = true;
-        }
-
     }
 
     /**
@@ -168,19 +143,4 @@ public class Lifeline {
     public void setHasHint(boolean hasHint) {
         this.hasHint = hasHint;
     }
-
-    /**
-     * @return the hasAsk
-     */
-    public boolean isHasAsk() {
-        return hasAsk;
-    }
-
-    /**
-     * @param hasAsk the hasAsk to set
-     */
-    public void setHasAsk(boolean hasAsk) {
-        this.hasAsk = hasAsk;
-    }
-
 }
