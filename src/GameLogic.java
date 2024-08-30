@@ -83,17 +83,18 @@ public class GameLogic implements GameControl {
 
     private void handleUserInput(String userInput) {
         answered = true;
+        int milliseconds = 2000;
         countdownTimer.setAnswered(true);
 
         if (userInput.equalsIgnoreCase(questions.getAnswer())) {
-            Utils.pause(2000);
+            Utils.pause(milliseconds);
             handleCorrectAnswer();
         } else if (userInput.equalsIgnoreCase("e")) {
             handleLifeline();
         } else if (userInput.equalsIgnoreCase("f")) {
             handleQuit();
         } else {
-            Utils.pause(2000);
+            Utils.pause(milliseconds);
             handleIncorrectAnswer();
         }
     }
