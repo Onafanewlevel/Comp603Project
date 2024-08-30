@@ -16,7 +16,7 @@ public class UserInputHandler {
     }
 
     public boolean checkLifelineInput(String input) {
-        return input.equals("5050") || input.equals("hint") || input.equals("ask");
+        return input.equals("5050") || input.equals("hint");
     }
 
     public boolean checkReadyInput(String input) {

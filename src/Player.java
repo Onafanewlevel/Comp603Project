@@ -19,10 +19,6 @@ public class Player {
         hasLifeline = true;
     }
 
-    public void increaseScore(int score) {
-        this.score += score;
-    }
-
     /**
      * @return the name
      */
@@ -45,6 +41,13 @@ public class Player {
     }
 
     /**
+     * @param score the score to set
+     */
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    /**
      * @return the hasLifeline
      */
     public boolean isHasLifeline() {
@@ -57,4 +60,5 @@ public class Player {
     public void setHasLifeline(boolean hasLifeline) {
         this.hasLifeline = hasLifeline;
     }
+
 }

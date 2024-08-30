@@ -67,6 +67,18 @@ public class Messages {
         );
     }
 
+    public void timesUp() {
+        System.out.println(
+                "___________.__             /\\          ____ ___       ._.\n"
+                + "\\__    ___/|__| _____   ___)/  ______ |    |   \\______| |\n"
+                + "  |    |   |  |/     \\_/ __ \\ /  ___/ |    |   /\\____ \\ |\n"
+                + "  |    |   |  |  Y Y  \\  ___/ \\___ \\  |    |  / |  |_> >|\n"
+                + "  |____|   |__|__|_|  /\\___  >____  > |______/  |   __/__\n"
+                + "                    \\/     \\/     \\/            |__|   \\/\n"
+                + "Im sorry but your time is up! Press any button to continue..."
+        );
+    }
+
     public void welcome(String name) {
         System.out.println(
                 "\nWelcome " + name + " to \"Who Wants to Be a Millionaire!\""
@@ -76,8 +88,7 @@ public class Messages {
                 + "\n"
                 + "But don’t worry, you're not alone! You have three lifelines to help you along the way:\n\n"
                 + "1. 50:50: Removes two incorrect answers, leaving you with one correct and one incorrect answer.\n"
-                + "2. Ask for a hint: A hint will be given to you regarding the question.\n"
-                + "3. Ask me! I'll give you the answer although you'll have to guess whether I'm bluffing or not!\n\n"
+                + "2. Ask for a hint: A hint will be given to you regarding the question.\n\n"
                 + "So, are you ready to take a seat in the hot seat and become a millionaire?");
     }
 }

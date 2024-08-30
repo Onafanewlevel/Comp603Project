@@ -13,16 +13,17 @@ public class QuestionManager {
 
     public void showNextQuestion(QuestionLoader questions, Lifeline lifeline) {
         Utils.pause(2000);
-        System.out.println("\n\nQuestion " + qCount + "\n\n");
+        int money = PrizeMoney.getPrizeByQuestionNumber(qCount);
+        System.out.println("\n\nQuestion " + (qCount) + "\n");
+        System.out.print("For $" + money + ": ");
         Utils.pause(2000);
-
         if (questions.loadNextQuestion()) {
             System.out.println(questions.getQuestion());
             System.out.println(questions.getA());
             System.out.println(questions.getB());
             System.out.println(questions.getC());
             System.out.println(questions.getD());
-            if (lifeline.isHasAsk() || lifeline.isHasFiftyfity() || lifeline.isHasHint()) {
+            if (lifeline.isHasFiftyfity() || lifeline.isHasHint()) {
                 System.out.println("\ne) Use Lifeline");
             }
             System.out.println("f) Walk Away!");
@@ -33,6 +34,6 @@ public class QuestionManager {
     }
     
     public int getQCount(){
-        return this.qCount; 
+        return this.qCount - 2; 
     }
 }
