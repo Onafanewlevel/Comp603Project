@@ -1,11 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 
 /**
  *
- * @author Onafanewlevel
+ * @author Setefano Muller
+ * @author Tharuka Rodrigo
  */
 public class Messages {
 
@@ -18,6 +15,15 @@ public class Messages {
                     + "\\     \\____(  <_> )|   |  \\/ /_/  >|  | \\/ / __ \\_/ /_/ ||  |  /|  |__ / __ \\_|  |  |  |(  <_> )|   |  \\ \\___ \\  \\|\n"
                     + " \\______  / \\____/ |___|  /\\___  / |__|   (____  /\\____ ||____/ |____/(____  /|__|  |__| \\____/ |___|  //____  > __\n"
                     + "        \\/              \\//_____/              \\/      \\/                  \\/                        \\/      \\/  \\/"
+            );
+        } else if (score == 0) {
+            System.out.println(
+                    ".____       _____      _____   ________          _________                           \n"
+                    + "|    |     /     \\    /  _  \\  \\_____  \\        /   _____/ __________________ ___.__.\n"
+                    + "|    |    /  \\ /  \\  /  /_\\  \\  /   |   \\       \\_____  \\ /  _ \\_  __ \\_  __ <   |  |\n"
+                    + "|    |___/    Y    \\/    |    \\/    |    \\      /        (  <_> )  | \\/|  | \\/\\___  |\n"
+                    + "|_______ \\____|__  /\\____|__  /\\_______  / /\\  /_______  /\\____/|__|   |__|   / ____|\n"
+                    + "        \\/       \\/         \\/         \\/  )/          \\/                     \\/     "
             );
         } else {
             System.out.println(
@@ -68,8 +74,8 @@ public class Messages {
     }
 
     public void timesUp() {
-        System.out.println(
-                "___________.__             /\\          ____ ___       ._.\n"
+        System.out.println("\n"
+                + "___________.__             /\\          ____ ___       ._.\n"
                 + "\\__    ___/|__| _____   ___)/  ______ |    |   \\______| |\n"
                 + "  |    |   |  |/     \\_/ __ \\ /  ___/ |    |   /\\____ \\ |\n"
                 + "  |    |   |  |  Y Y  \\  ___/ \\___ \\  |    |  / |  |_> >|\n"
