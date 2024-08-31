@@ -11,11 +11,11 @@ public class QuestionManager {
 
     private int qCount = 1;  // To track question numbers
 
-    public void showNextQuestion(QuestionLoader questions, Lifeline lifeline) {
+    public void showNextQuestion(QuestionLoader questions, Lifeline lifeline, Player player) {
         Utils.pause(2000);
         int money = PrizeMoney.getPrizeByQuestionNumber(qCount);
         System.out.println("\n\nQuestion " + (qCount) + "\n");
-        System.out.print("For $" + money + ": ");
+        System.out.print(player.getName() + ", for $" + money + ": ");
         Utils.pause(2000);
         if (questions.loadNextQuestion()) {
             System.out.println(questions.getQuestion());
@@ -23,8 +23,9 @@ public class QuestionManager {
             System.out.println(questions.getB());
             System.out.println(questions.getC());
             System.out.println(questions.getD());
-            if (lifeline.isHasFiftyfity() || lifeline.isHasHint()) {
-                System.out.println("\ne) Use Lifeline");
+            System.out.println("");
+            if (player.isHasLifeline()) {
+                System.out.println("e) Use Lifeline");
             }
             System.out.println("f) Walk Away!");
             qCount++;  // Increment the question counter
@@ -34,6 +35,6 @@ public class QuestionManager {
     }
     
     public int getQCount(){
-        return this.qCount - 2; 
+        return this.qCount - 1; 
     }
 }

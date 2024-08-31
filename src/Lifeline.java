@@ -13,7 +13,7 @@ import java.util.Scanner;
  */
 public class Lifeline {
 
-    private boolean hasFiftyfity;
+    private boolean hasFiftyfifty;
     private boolean hasHint;
     private Scanner scan;
     private String input;
@@ -21,7 +21,7 @@ public class Lifeline {
     private Utils utils;
 
     public Lifeline() {
-        this.hasFiftyfity = true;
+        this.hasFiftyfifty = true;
         this.hasHint = true;
         this.scan = new Scanner(System.in);
         this.input = null;
@@ -29,11 +29,12 @@ public class Lifeline {
         this.utils = new Utils();
     }
 
-    public void useLifeline(QuestionLoader question) {
-        showRemainingLifelines();
+    public void chooseLifeline(QuestionLoader question, Player player) {
+        showRemainingLifelines(player);
 
-        // Loop until valid lifeline input is received
-        while (true) {
+        boolean validChoiceMade = false;
+
+        while (!validChoiceMade) {
             input = scan.nextLine().toLowerCase();
 
             if (!userInputHandler.checkLifelineInput(input)) {
@@ -44,9 +45,10 @@ public class Lifeline {
             // Process the valid lifeline input
             switch (input) {
                 case "5050":
-                    if (hasFiftyfity) {
+                    if (hasFiftyfifty) {
                         useFiftyFifty(question);
-                        hasFiftyfity = false;
+                        hasFiftyfifty = false;
+                        validChoiceMade = true; // A valid lifeline choice was made
                     } else {
                         System.out.println("You have already used the 50:50 lifeline.");
                     }
@@ -55,14 +57,21 @@ public class Lifeline {
                     if (hasHint) {
                         useHint(question);
                         hasHint = false;
+                        validChoiceMade = true; // A valid lifeline choice was made
                     } else {
                         System.out.println("You have already used the Hint lifeline.");
                     }
                     break;
+                default:
+                    // Should never reach here if input is validated properly
+                    break;
             }
-            break; // Exit the loop after processing the input
         }
-        scan.close();
+
+        // Update player lifeline status
+        if (!hasFiftyfifty && !hasHint) {
+            player.setHasLifeline(false);
+        }
     }
 
     public void useFiftyFifty(QuestionLoader questionLoader) {
@@ -70,9 +79,14 @@ public class Lifeline {
 
         Random random = new Random();
         HashMap<Character, String> options = questionLoader.getOptions();
-        char correctAnswer = questionLoader.getAnswer().charAt(0);
+        if (options == null || options.isEmpty()) {
+            System.out.println("No options available to remove.");
+            return;
+        }
 
+        char correctAnswer = questionLoader.getAnswer().charAt(0);
         int removed = 0;
+
         while (removed < 2) {
             char option = (char) ('a' + random.nextInt(4)); // Randomly select an option 'a', 'b', 'c', or 'd'
             if (option != correctAnswer && options.containsKey(option)) {
@@ -91,56 +105,24 @@ public class Lifeline {
 
     private void useHint(QuestionLoader question) {
         System.out.println("Hint Lifeline activated!\n");
-        System.out.println("Hint: " + question.getHint());
+        System.out.println(question.getHint());
     }
 
-    private void showRemainingLifelines() {
+    private void showRemainingLifelines(Player player) {
 
-        boolean hasAnyLifelines = false;  // Flag to check if there are any lifelines left
-        if (!hasAnyLifelines) {
+        if (player.isHasLifeline()) {
             System.out.println("\nUsing a lifeline...");
             utils.pause(2000);
             System.out.println("\nRemaining Lifelines:");
+            if (hasFiftyfifty) {
+                System.out.println("- 50:50 (type '5050')");
+            }
+            if (hasHint) {
+                System.out.println("- Hint (type 'hint')");
+            }
 
         } else {
-            System.out.println("\nNo remaining lifelines.");
+            System.out.println("\nNo remainig lifelines.");
         }
-
-        if (hasFiftyfity) {
-            System.out.println("- 50:50 (type '5050')");
-            hasAnyLifelines = true;
-        }
-        if (hasHint) {
-            System.out.println("- Hint (type 'hint')");
-            hasAnyLifelines = true;
-        }
-    }
-
-    /**
-     * @return the hasFiftyfity
-     */
-    public boolean isHasFiftyfity() {
-        return hasFiftyfity;
-    }
-
-    /**
-     * @param hasFiftyfity the hasFiftyfity to set
-     */
-    public void setHasFiftyfity(boolean hasFiftyfity) {
-        this.hasFiftyfity = hasFiftyfity;
-    }
-
-    /**
-     * @return the hasHint
-     */
-    public boolean isHasHint() {
-        return hasHint;
-    }
-
-    /**
-     * @param hasHint the hasHint to set
-     */
-    public void setHasHint(boolean hasHint) {
-        this.hasHint = hasHint;
     }
 }

@@ -38,11 +38,11 @@ public class GameLogic implements GameControl {
         message.startBanner();
         promptForStart();
         message.startBanner2();
+        player.setScore(0);
 
         while (gameRunning) {
             startNewQuestionRound();
         }
-        scan.close();
     }
 
     private void promptForStart() {
@@ -56,41 +56,42 @@ public class GameLogic implements GameControl {
     }
 
     private void startNewQuestionRound() {
-        // Show the next question
         answered = false;
-        questionManager.showNextQuestion(questions, lifeline);
-        // Start Countdown when next question in initiated.
+        questionManager.showNextQuestion(questions, lifeline, player);
         countdownTimer.setAnswered(false);
         countdownTimer.startCountDown(15);
-        // Handle user input
-        String userInput;
-        while (!answered) {  // Continue prompting until a valid answer or timeout
-            userInput = scan.nextLine();
 
+        handleUserAnswers();
+        countdownTimer.setAnswered(true); // Ensure countdown stops
+    }
+
+    private void handleUserAnswers() {
+        String userInput;
+        while (!answered) {
             if (countdownTimer.hasTimerRunOut()) {
                 handleTimeOut();
-            } else if (userInputHandler.checkAnswerInput(userInput)) {
-                handleUserInput(userInput);
-                answered = true;  // Mark as answered to stop the countdown
+                return; // Exit if the timer has run out
+            }
+
+            userInput = scan.nextLine();
+            if (userInputHandler.checkAnswerInput(userInput)) {
+                processUserInput(userInput);
             } else {
                 System.out.println("Invalid input! Please try again.");
             }
         }
-        // Ensure countdown stops if the input is provided or if time runs out
-        countdownTimer.setAnswered(true);
-
     }
 
-    private void handleUserInput(String userInput) {
+    private void processUserInput(String userInput) {
         answered = true;
-        int milliseconds = 2000;
+        int milliseconds = 0;
         countdownTimer.setAnswered(true);
 
         if (userInput.equalsIgnoreCase(questions.getAnswer())) {
             Utils.pause(milliseconds);
             handleCorrectAnswer();
         } else if (userInput.equalsIgnoreCase("e")) {
-            handleLifeline();
+            processLifelineInput();
         } else if (userInput.equalsIgnoreCase("f")) {
             handleQuit();
         } else {
@@ -99,30 +100,62 @@ public class GameLogic implements GameControl {
         }
     }
 
-    private void handleCorrectAnswer() {
-        System.out.println("\nCorrect!");
+    private void processLifelineInput() {
+        if (player.isHasLifeline()) {
+            String lifelineInput = handleLifeline();
+            processUserInput(lifelineInput); // Instead of recursion, handle input directly
+        } else {
+            System.out.println("Sorry " + player.getName() + ", you have no lifelines remaining.");
+            String input;
+            do {
+                System.out.println("Please enter a valid answer or type 'f' to quit:");
+                input = scan.nextLine();
+            } while (!userInputHandler.checkAnswerInput(input) && !input.equalsIgnoreCase("f"));
+            processUserInput(input); // Handle new input directly
+        }
     }
 
-    private void handleLifeline() {
-        lifeline.useLifeline(questions);
+    private String handleLifeline() {
+        lifeline.chooseLifeline(questions, player);
+        String input;
+        do {
+            input = scan.nextLine();
+            if (!userInputHandler.checkAnswerFromLifelineInput(input)) {
+                System.out.println("Please enter a valid input");
+            }
+        } while (!userInputHandler.checkAnswerFromLifelineInput(input));
+        return input;
+    }
+
+    private void handleCorrectAnswer() {
+        System.out.println("\nCorrect!");
+        System.out.println("Count: " + questionManager.getQCount());
+        player.setScore(PrizeMoney.getPrizeByQuestionNumber(questionManager.getQCount()));
+
+        if (player.getScore() == 1000000) {
+            winGame();
+        }
+    }
+
+    private void winGame() {
+        System.out.println("\nCongratulations, " + player.getName() + "! You have won the game with a score of " + player.getScore() + "!");
+        message.endMessage(player.getName(), player.getScore());
+        stopGame();
     }
 
     private void handleQuit() {
         System.out.println("You chose to quit the game.");
-        player.setScore(PrizeMoney.getPrizeByQuestionNumber(questionManager.getQCount()));
         message.endMessage(player.getName(), player.getScore());
         stopGame();
     }
 
     private void handleIncorrectAnswer() {
         System.out.println("\nIncorrect! Unfortunately the answer is " + questions.getAnswer());
-        player.setScore(PrizeMoney.getPrizeByQuestionNumber(questionManager.getQCount()));
         message.endMessage(player.getName(), player.getScore());
         stopGame();
     }
 
     private void handleTimeOut() {
-        player.setScore(PrizeMoney.getPrizeByQuestionNumber(questionManager.getQCount()));
         message.endMessage(player.getName(), player.getScore());
         stopGame();
         System.exit(0);
