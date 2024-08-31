@@ -82,3 +82,24 @@ c) Call of Duty Black Ops
 d) Battlefield 2 Bad Company
 d
 Hint: This game was created by Treyarch Inc.
+Which of the following terms refers to the unauthorized modification of software to remove or bypass its copy protection? 
+a) Phishing
+b) Cracking
+c) Spoofing
+d) Sniffing
+b
+Hint: This term is often associated with removing digital rights management (DRM) protections.
+What is the primary function of a 'keygen' in the context of software piracy? 
+a) It generates unique software features.
+b) It activates software without purchasing a license.
+c) It scans computers for malware.
+d) It compresses files to save storage space.
+b
+Hint: This tool creates a product key used to bypass software licensing.
+In digital copyright infringement cases, what does the term 'DMCA' stand for? 
+a) Digital Media Control Act
+b) Digital Millennium Copyright Act
+c) Data Management Compliance Act
+d) Digital Multimedia Copyright Agreement
+b
+Hint: This U.S. law was enacted to address copyright issues arising from digital technology.
