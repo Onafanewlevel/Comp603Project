@@ -189,7 +189,6 @@ public class GameLogic implements GameControl {
      * maximum score.
      */
     private void winGame() {
-        System.out.println("\nCongratulations, " + player.getName() + "! You have won the game with a score of " + player.getScore() + "!");
         message.endMessage(player.getName(), player.getScore());
         stopGame(); // Stop the game after winning
     }
