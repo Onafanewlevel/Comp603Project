@@ -1,14 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
- */
 
 /**
  *
- * @author Onafanewlevel
+ * @author Setefano Muller
+ * @author Tharuka Rodrigo
  */
 public interface GameControl {
-    void startGame();
-    void stopGame();
+    void startGame();//Initialize any necessary game components then begins main game loop. 
+    void stopGame();//Terminate the game loop.
 }
-
