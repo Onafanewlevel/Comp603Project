@@ -17,7 +17,7 @@ public class GameLogic implements GameControl {
     private final Player player; // The current player of the game
     private final Messages message = new Messages(); // Handles game messages
     private final QuestionFileReader questions; // Loads and manages questions
-    private final InputValidator userInputHandler = new InputValidator(); // Validates user inputs
+    private final InputValidator inputValidator = new InputValidator(); // Validates user inputs
     private final CountdownTimer countdownTimer; // Manages the countdown timer for answering questions
     private final QuizController questionManager = new QuizController(); // Manages the display of questions
     private final Lifeline lifeline; // Manages lifeline functionality
@@ -69,10 +69,10 @@ public class GameLogic implements GameControl {
         String userInput;
         do {
             userInput = scan.nextLine();
-            if (!userInputHandler.checkReadyInput(userInput)) {
+            if (!inputValidator.checkReadyInput(userInput)) {
                 System.out.println("Press y when ready!");
             }
-        } while (!userInputHandler.checkReadyInput(userInput));
+        } while (!inputValidator.checkReadyInput(userInput));
     }
 
     /**
@@ -97,8 +97,8 @@ public class GameLogic implements GameControl {
         String userInput;
 
         while (!answered) {
-            userInput = scan.nextLine();
-            if (userInputHandler.checkAnswerInput(userInput)) {
+            userInput = scan.nextLine().toLowerCase();
+            if (inputValidator.checkAnswerInput(userInput)) {
                 if (countdownTimer.hasTimerRunOut()) {
                     handleTimeOut(); // Handle timeout scenario
                     return;
@@ -122,7 +122,7 @@ public class GameLogic implements GameControl {
         int milliseconds = 2000;
         countdownTimer.setAnswered(true);
 
-        if (userInput.equalsIgnoreCase(questions.getAnswer())) {
+        if (userInput.equals(questions.getAnswer())) {
             TimeUtil.pause(milliseconds);
             handleCorrectAnswer();
         } else if (userInput.equalsIgnoreCase("e")) {
@@ -149,7 +149,7 @@ public class GameLogic implements GameControl {
             do {
                 System.out.println("Please enter a valid answer or type 'f' to quit:");
                 input = scan.nextLine();
-            } while (!userInputHandler.checkAnswerInput(input) && !input.equalsIgnoreCase("f"));
+            } while (!inputValidator.checkAnswerInput(input) && !input.equalsIgnoreCase("f"));
             processUserInput(input); // Handle the new input directly
         }
     }
@@ -165,10 +165,10 @@ public class GameLogic implements GameControl {
         String input;
         do {
             input = scan.nextLine();
-            if (!userInputHandler.checkAnswerFromLifelineInput(input)) {
+            if (!inputValidator.checkAnswerFromLifelineInput(input)) {
                 System.out.println("Please enter a valid input");
             }
-        } while (!userInputHandler.checkAnswerFromLifelineInput(input));
+        } while (!inputValidator.checkAnswerFromLifelineInput(input));
         return input;
     }
 
@@ -189,7 +189,6 @@ public class GameLogic implements GameControl {
      * maximum score.
      */
     private void winGame() {
-        System.out.println("\nCongratulations, " + player.getName() + "! You have won the game with a score of " + player.getScore() + "!");
         message.endMessage(player.getName(), player.getScore());
         stopGame(); // Stop the game after winning
     }

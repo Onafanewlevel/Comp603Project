@@ -90,9 +90,10 @@ public class Messages {
                 "\nWelcome " + name + " to \"Who Wants to Be a Millionaire!\""
                 + "\n"
                 + "Are you ready to test your knowledge and climb the ladder to win the ultimate prize?\n"
-                + "You'll face a series of increasingly challenging questions, with each correct answer bringing you closer to the grand million-dollar prize!\n"
+                + "You'll face a series of increasingly challenging questions, with each correct answer"
+                + "\nbringing you closer to the grand million-dollar prize!\n"
                 + "\n"
-                + "But don’t worry, you're not alone! You have three lifelines to help you along the way:\n\n"
+                + "But don’t worry, you're not alone! You have two lifelines to help you along the way:\n\n"
                 + "1. 50:50: Removes two incorrect answers, leaving you with one correct and one incorrect answer.\n"
                 + "2. Ask for a hint: A hint will be given to you regarding the question.\n\n"
                 + "So, are you ready to take a seat in the hot seat and become a millionaire?");
